@@ -54,9 +54,9 @@ export class App {
 	private async createDatabaseConnection() {
 		const connectionOpts: SqliteConnectionOptions = {
 			type: "sqlite",
-			database: "simsamo.db",
+			database: "sushi.db",
 			entities: [
-				join(__dirname + "/api/**/*.entity.js")
+				join(__dirname + `/api/**/*.entity.${IS_DEV ? "ts" : "js"}`)
 			],
 			synchronize: true
 		};
