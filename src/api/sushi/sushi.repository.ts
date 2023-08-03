@@ -1,7 +1,5 @@
-import { EntityRepository, Repository } from "typeorm";
-import { Sushi } from "./entity/sushi.entity";
+import { Sushi } from './entity/sushi.entity';
+import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(Sushi)
-export class SushiRepository extends Repository<Sushi> {
-
-}
+export class SushiRepository extends Repository<Sushi> {}

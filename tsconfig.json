@@ -21,9 +21,7 @@
     "esModuleInterop": true,
     "noStrictGenericChecks": false,
     "paths": {
-      "src/*": [
-        "src/*"
-      ]
+      "src/*": ["src/*"]
     }
   }
 }

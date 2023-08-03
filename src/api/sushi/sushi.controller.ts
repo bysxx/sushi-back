@@ -1,32 +1,28 @@
-import {
-	Body, Delete, Get, JsonController, Param, Post,
-} from "routing-controllers";
-import { CreateSushiDTO } from "./dto/create-sushi.dto";
-import { SushiService } from "./sushi.service";
+import { Body, Delete, Get, JsonController, Param, Post } from 'routing-controllers';
+import { CreateSushiDTO } from './dto/create-sushi.dto';
+import { SushiService } from './sushi.service';
 
-@JsonController("/sushi")
+@JsonController('/sushi')
 export class SushiController {
-	constructor(
-    private readonly sushiService: SushiService,
-	) { }
+  constructor(private readonly sushiService: SushiService) {}
 
   @Get()
-	public async get() {
-		return this.sushiService.getAllSushi();
-	}
+  public async get() {
+    return this.sushiService.getAllSushi();
+  }
 
-  @Get("/:id")
-  public async getOne(@Param("id") id: number) {
-  	return this.sushiService.getSushiById(id);
+  @Get('/:id')
+  public async getOne(@Param('id') id: number) {
+    return this.sushiService.getSushiById(id);
   }
 
   @Post()
   public async create(@Body() body: CreateSushiDTO) {
-  	return this.sushiService.create(body);
+    return this.sushiService.create(body);
   }
 
-  @Delete("/:id")
-  public async deleteOne(@Param("id") id: number) {
-  	return this.sushiService.deleteSushiById(id);
+  @Delete('/:id')
+  public async deleteOne(@Param('id') id: number) {
+    return this.sushiService.deleteSushiById(id);
   }
 }

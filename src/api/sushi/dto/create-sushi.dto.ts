@@ -1,12 +1,12 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateSushiDTO {
-	@IsNotEmpty()
-	public name: string;
+  @IsNotEmpty()
+  public name: string;
 
   @IsNotEmpty()
-	public location: string;
-  
+  public location: string;
+
   @IsNotEmpty()
   public phone: string;
 }
