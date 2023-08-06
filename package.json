@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "tsc",
-    "start": "npm run build && cross-env NODE_ENV=production node dist/index.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
@@ -32,7 +32,6 @@
     "shelljs": "^0.8.5",
     "source-map-support": "0.5.19",
     "sqlite3": "^5.1.6",
-    "tsc": "^2.0.4",
     "typedi": "0.8.0",
     "typeorm": "0.2.45",
     "typeorm-typedi-extensions": "0.2.3"
