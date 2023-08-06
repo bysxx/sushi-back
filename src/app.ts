@@ -10,6 +10,7 @@ import { GlobalErrorHandler } from 'middleware/global-error.handler';
 import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 import { AuthorizationHandler } from 'middleware/authorization.handler';
 import { IS_DEV } from 'config';
+import cors from 'cors';
 
 export class App {
   public app: Application;
@@ -46,6 +47,7 @@ export class App {
     this.app.use(morgan('dev'));
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(cors());
   }
 
   private async createDatabaseConnection() {
