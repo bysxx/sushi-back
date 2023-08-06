@@ -4,7 +4,7 @@ import { Authorized, Get, JsonController } from 'routing-controllers';
 export class TestController {
   @Get()
   public test() {
-    return 'good !';
+    return 'cicd good !';
   }
 
   @Authorized()

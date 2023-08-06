@@ -17,3 +17,19 @@ jobs:
         docker build -t bysxx/sushi-back:latest .
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         docker push bysxx/sushi-back:latest
+    
+    - name: Deploy to Oracle Cloud
+      env:
+        PRIVATE_KEY: ${{ secrets.ORACLE_CLOUD_PRIVATE_KEY }}
+        HOST: ${{ secrets.ORACLE_CLOUD_USER }}@${{ secrets.ORACLE_CLOUD_IP }}
+      run: |
+        # SSH key 저장 및 권한 설정
+        echo "$PRIVATE_KEY" > private_key.pem
+        chmod 600 private_key.pem
+
+        # Docker Hub에서 이미지를 pull하고 실행하는 SSH 명령
+        ssh -o StrictHostKeyChecking=no -i private_key.pem $HOST << EOF
+          docker pull bysxx/sushi-back:latest
+          docker stop sushi-back
+          docker run -d --name susho-back -p 3200:3200 bysxx/sushi-back:latest
+        EOF
