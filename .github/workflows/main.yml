@@ -1,0 +1,19 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches: [ master, dev ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t bysxx/sushi-back:latest .
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        docker push bysxx/sushi-back:latest
