@@ -31,5 +31,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i private_key.pem $HOST << EOF
           docker pull bysxx/sushi-back:latest
           docker stop sushi-back
-          docker run -d --name susho-back -p 3200:3200 bysxx/sushi-back:latest
+          docker rm sushi-back
+          docker run -d --name sushi-back -p 3200:3200 bysxx/sushi-back:latest
         EOF
