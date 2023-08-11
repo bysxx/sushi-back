@@ -15,6 +15,9 @@ export class Sushi {
   @Column('varchar', { name: 'phone' })
   phone: string;
 
+  @Column('double', { name: 'stars_avg', default: '0' })
+  starsAvg: number;
+
   @Column('simple-array', { name: 'reviews', default: '' })
   reviews: number[];
 

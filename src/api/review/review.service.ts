@@ -25,6 +25,7 @@ export class ReviewService {
       if (sushi) {
         // Add the review's id to the reviews array of the sushi object
         sushi.reviews.push(data.id);
+        sushi.starsAvg = (sushi.starsAvg * (sushi.reviews.length - 1) + createReviewDTO.stars) / sushi.reviews.length;
 
         // Save the modified sushi object back to the database
         await this.sushiRepo.save(sushi);
