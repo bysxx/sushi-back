@@ -1,22 +1,19 @@
 /* eslint-disable indent */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('sushi')
-export class Sushi {
+@Entity('review')
+export class Review {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'password' })
-  name: string;
+  @Column('int', { name: 'sushi_id' })
+  sushiId: number;
 
-  @Column('varchar', { name: 'location' })
-  location: string;
+  @Column('varchar', { name: 'contents' })
+  contents: string;
 
-  @Column('varchar', { name: 'phone' })
-  phone: string;
-
-  @Column('simple-array', { name: 'reviews', default: '' })
-  reviews: number[];
+  @Column('double', { name: 'stars' })
+  stars: number;
 
   @Column('datetime', {
     name: 'created_at',
