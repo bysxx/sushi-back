@@ -1,6 +1,5 @@
 import { SushiRepository } from 'api/sushi/sushi.repository';
 import { BaseException } from 'exceptions/base.exception';
-import e from 'express';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { CreateReviewDTO } from './dto/create-review.dto';
