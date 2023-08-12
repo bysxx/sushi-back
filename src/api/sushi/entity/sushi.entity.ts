@@ -21,6 +21,9 @@ export class Sushi {
   @Column('simple-array', { name: 'reviews', default: '' })
   reviews: number[];
 
+  @Column('simple-array', { name: 'menus', default: '' })
+  menus: string[];
+
   @Column('datetime', {
     name: 'created_at',
     default: () => 'CURRENT_TIMESTAMP',

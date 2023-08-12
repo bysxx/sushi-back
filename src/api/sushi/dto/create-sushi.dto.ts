@@ -9,4 +9,7 @@ export class CreateSushiDTO {
 
   @IsNotEmpty()
   public phone: string;
+
+  @IsNotEmpty()
+  public menus: string[];
 }
