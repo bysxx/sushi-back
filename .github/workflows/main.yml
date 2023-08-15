@@ -20,6 +20,7 @@ jobs:
     
     - name: Deploy to Oracle Cloud
       env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
         PRIVATE_KEY: ${{ secrets.ORACLE_CLOUD_PRIVATE_KEY }}
         HOST: ${{ secrets.ORACLE_CLOUD_USER }}@${{ secrets.ORACLE_CLOUD_IP }}
       run: |
@@ -32,5 +33,5 @@ jobs:
           docker pull bysxx/sushi-back:latest
           docker stop sushi-back
           docker rm sushi-back
-          docker run -d --name sushi-back -p 3200:3200 bysxx/sushi-back:latest
+          docker run -e MONGO_URI="${MONGO_URI}" -d --name sushi-back -p 3200:3200 bysxx/sushi-back:latest
         EOF

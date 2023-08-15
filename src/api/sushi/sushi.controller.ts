@@ -1,5 +1,6 @@
-import { Body, Delete, Get, JsonController, Param, Post } from 'routing-controllers';
-import { CreateSushiDTO } from './dto/create-sushi.dto';
+import { Response } from 'express';
+import { Body, Delete, Get, JsonController, Param, Post, Res } from 'routing-controllers';
+import Sushi, { SushiReview } from './sushi.model';
 import { SushiService } from './sushi.service';
 
 @JsonController('/sushi')
@@ -7,22 +8,29 @@ export class SushiController {
   constructor(private readonly sushiService: SushiService) {}
 
   @Get()
-  public async get() {
-    return this.sushiService.getAllSushi();
+  public async get(@Res() response: Response) {
+    const data = await this.sushiService.getAllSushi();
+    return response.send(data);
   }
 
   @Get('/:id')
-  public async getOne(@Param('id') id: number) {
-    return this.sushiService.getSushiById(id);
+  public async getOne(@Param('id') id: string, @Res() response: Response) {
+    const data = await this.sushiService.getSushiById(id);
+    return response.send(data);
   }
 
   @Post()
-  public async create(@Body() body: CreateSushiDTO) {
+  public async create(@Body() body: Sushi) {
     return this.sushiService.create(body);
   }
 
   @Delete('/:id')
-  public async deleteOne(@Param('id') id: number) {
+  public async deleteOne(@Param('id') id: string) {
     return this.sushiService.deleteSushiById(id);
+  }
+
+  @Post('/review')
+  public async createReview(@Body() body: SushiReview & { sushiId: string }) {
+    return this.sushiService.createReview(body.sushiId, body);
   }
 }

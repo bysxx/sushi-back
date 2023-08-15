@@ -4,13 +4,12 @@ import { Server } from 'http';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import Container from 'typedi';
 import { join } from 'path';
-import { createConnection, useContainer as useDBContainer } from 'typeorm';
 import bodyParser from 'body-parser';
 import { GlobalErrorHandler } from 'middleware/global-error.handler';
-import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 import { AuthorizationHandler } from 'middleware/authorization.handler';
-import { IS_DEV } from 'config';
+import { IS_DEV, MONGO_URI } from 'config';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
 export class App {
   public app: Application;
@@ -51,14 +50,8 @@ export class App {
   }
 
   private async createDatabaseConnection() {
-    const connectionOpts: SqliteConnectionOptions = {
-      type: 'sqlite',
-      database: 'sushi.db',
-      entities: [join(__dirname + `/api/**/*.entity.${IS_DEV ? 'ts' : 'js'}`)],
-      synchronize: true,
-    };
+    await mongoose.connect(MONGO_URI);
 
-    useDBContainer(Container);
-    await createConnection(connectionOpts);
+    console.log('Successfully connected to mongoDB');
   }
 }
