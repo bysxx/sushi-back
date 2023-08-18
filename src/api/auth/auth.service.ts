@@ -17,7 +17,7 @@ export class AuthService {
           id: userInfo.id,
         },
         'tmp',
-        { expiresIn: '10s', issuer: 'back' },
+        { expiresIn: '1d', issuer: 'back' },
       );
       return { token: token, data: userInfo.toJSON() };
     } catch (e) {

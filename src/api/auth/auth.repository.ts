@@ -6,8 +6,8 @@ import User from './auth.interfaces';
 export class AuthRepository {
   constructor() {
     const schema = new Schema<User>({
-      email: { type: String, required: true },
-      password: { type: String, required: true },
+      email: { type: String, required: true, unique: true, index: true },
+      password: { type: String, required: true, idnex: true },
       name: { type: String, required: true },
       location: { type: String, required: true },
       age: { type: Number, required: true },

@@ -5,6 +5,7 @@ import { Action } from 'routing-controllers';
 export const AuthorizationHandler = async (action: Action) => {
   try {
     const token = action.request.headers['authorization'];
+    console.log('token', token);
 
     verify(token, 'tmp');
 
