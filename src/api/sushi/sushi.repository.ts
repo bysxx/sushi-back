@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import Sushi, { SushiMenu, SushiReview } from './sushi.model';
+import Sushi, { SushiMenu, SushiReview } from './sushi.interfaces';
 import { Model, model, Schema } from 'mongoose';
 
 @Service()

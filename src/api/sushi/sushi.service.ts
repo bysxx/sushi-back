@@ -1,7 +1,7 @@
 import { BaseException } from 'exceptions/base.exception';
 import { Service } from 'typedi';
 import { SushiRepository } from './sushi.repository';
-import Sushi, { SushiReview } from './sushi.model';
+import Sushi, { CreateReviewBody } from './sushi.interfaces';
 
 @Service()
 export class SushiService {
@@ -25,7 +25,7 @@ export class SushiService {
 
   public async deleteSushiById(id: string) {
     try {
-      return await this.sushiRepo.model.findByIdAndDelete(id);
+      await this.sushiRepo.model.findByIdAndDelete(id);
     } catch (e) {
       throw new BaseException(400, 'create error', e);
     }
@@ -39,16 +39,16 @@ export class SushiService {
     }
   }
 
-  public async createReview(id: string, review: SushiReview) {
+  public async createReview(body: CreateReviewBody) {
     try {
-      const sushi = await this.sushiRepo.model.findOne({ _id: id });
+      const sushi = await this.sushiRepo.model.findOne({ _id: body.sushiId });
 
       if (!sushi) {
         throw new Error('sushi not found');
       }
 
-      sushi.starsAvg = (sushi.starsAvg * sushi.reviews.length + review.star) / (sushi.reviews.length + 1);
-      sushi.reviews.push(review);
+      sushi.starsAvg = (sushi.starsAvg * sushi.reviews.length + body.star) / (sushi.reviews.length + 1);
+      sushi.reviews.push(body);
       await sushi.save();
     } catch (e) {
       throw new BaseException(400, 'create review error', e);

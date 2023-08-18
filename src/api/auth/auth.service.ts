@@ -1,38 +1,33 @@
 import { BaseException } from 'exceptions/base.exception';
 import { Service } from 'typedi';
-import { InjectRepository } from 'typeorm-typedi-extensions';
-import { AuthRepository } from './auth.repository';
-import { LoginDTO } from './dto/login.dto';
-import { SingupDTO } from './dto/sign-up.dto';
 import { sign } from 'jsonwebtoken';
+import { LoginBody, SignupBody } from './auth.interfaces';
+import { AuthRepository } from './auth.repository';
 
 @Service()
 export class AuthService {
-  constructor(
-    @InjectRepository()
-    private readonly authRepo: AuthRepository,
-  ) {}
+  constructor(private readonly authRepo: AuthRepository) {}
 
-  public async login(loginDTO: LoginDTO) {
+  public async login(body: LoginBody) {
     try {
-      const userInfo = await this.authRepo.findOne(loginDTO);
+      const userInfo = await this.authRepo.model.findOne(body);
+      console.log(userInfo);
       const token = sign(
         {
           id: userInfo.id,
-          username: userInfo.username,
         },
         'tmp',
-        { expiresIn: '10s', issuer: 'sraccoon' },
+        { expiresIn: '10s', issuer: 'back' },
       );
-      return { token: token };
+      return { token: token, data: userInfo.toJSON() };
     } catch (e) {
       throw new BaseException(400, '토큰 발급 중 알 수 없는 에러 발생', e);
     }
   }
 
-  public async signup(signupDTO: SingupDTO) {
+  public async signup(body: SignupBody) {
     try {
-      await this.authRepo.save(signupDTO);
+      await this.authRepo.model.create(body);
     } catch (e) {
       throw new BaseException(400, e.message, e);
     }

@@ -17,4 +17,8 @@ export interface Sushi {
   menus: SushiMenu[];
 }
 
+export interface CreateReviewBody extends SushiReview {
+  sushiId: string;
+}
+
 export default Sushi;

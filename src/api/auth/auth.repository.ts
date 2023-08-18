@@ -1,5 +1,22 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { User } from './entity/user.entity';
+import { Service } from 'typedi';
+import { Model, model, Schema } from 'mongoose';
+import User from './auth.interfaces';
 
-@EntityRepository(User)
-export class AuthRepository extends Repository<User> {}
+@Service()
+export class AuthRepository {
+  constructor() {
+    const schema = new Schema<User>({
+      email: { type: String, required: true },
+      password: { type: String, required: true },
+      name: { type: String, required: true },
+      location: { type: String, required: true },
+      age: { type: Number, required: true },
+      bookmarks: { type: [], default: [] },
+      reviews: { type: [], default: [] },
+    });
+
+    this.model = model<User>('User', schema);
+  }
+
+  public model: Model<User>;
+}
