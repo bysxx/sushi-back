@@ -14,6 +14,10 @@ export interface LoginBody {
   password: string;
 }
 
+export interface CheckDuplicateBody {
+  email: string;
+}
+
 export interface SignupBody {
   email: string;
   password: string;

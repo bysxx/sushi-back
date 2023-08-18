@@ -1,7 +1,7 @@
 import { BaseException } from 'exceptions/base.exception';
 import { Service } from 'typedi';
 import { sign } from 'jsonwebtoken';
-import { LoginBody, SignupBody } from './auth.interfaces';
+import { CheckDuplicateBody, LoginBody, SignupBody } from './auth.interfaces';
 import { AuthRepository } from './auth.repository';
 
 @Service()
@@ -11,7 +11,6 @@ export class AuthService {
   public async login(body: LoginBody) {
     try {
       const userInfo = await this.authRepo.model.findOne(body);
-      console.log(userInfo);
       const token = sign(
         {
           id: userInfo.id,
@@ -31,5 +30,10 @@ export class AuthService {
     } catch (e) {
       throw new BaseException(400, e.message, e);
     }
+  }
+
+  public async checkDuplicateEmail(body: CheckDuplicateBody) {
+    const existingUser = await this.authRepo.model.findOne({ email: body.email });
+    return { isExist: existingUser ? true : false };
   }
 }

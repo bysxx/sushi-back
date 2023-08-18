@@ -1,5 +1,5 @@
 import { Authorized, Body, Get, JsonController, Post } from 'routing-controllers';
-import { LoginBody, SignupBody } from './auth.interfaces';
+import { CheckDuplicateBody, LoginBody, SignupBody } from './auth.interfaces';
 import { AuthService } from './auth.service';
 
 @JsonController('/auth')
@@ -16,6 +16,11 @@ export class AuthController {
     await this.authService.signup(body);
 
     return { message: 'success' };
+  }
+
+  @Post('/check-duplicate')
+  public async checkDuplicate(@Body() body: CheckDuplicateBody) {
+    return await this.authService.checkDuplicateEmail(body);
   }
 
   @Get('/test')
