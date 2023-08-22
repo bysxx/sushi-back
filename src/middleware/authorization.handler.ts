@@ -5,9 +5,8 @@ import { Action } from 'routing-controllers';
 export const AuthorizationHandler = async (action: Action) => {
   try {
     const token = action.request.headers['authorization'];
-    console.log('token', token);
-
-    verify(token, 'tmp');
+    const verifiedToken = verify(token, 'tmp');
+    action.request.user = verifiedToken;
 
     return true;
   } catch (e) {

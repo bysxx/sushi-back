@@ -2,10 +2,11 @@ import { BaseException } from 'exceptions/base.exception';
 import { Service } from 'typedi';
 import { SushiRepository } from './sushi.repository';
 import Sushi, { CreateReviewBody } from './sushi.interfaces';
+import { AuthRepository } from 'api/auth/auth.repository';
 
 @Service()
 export class SushiService {
-  constructor(private readonly sushiRepo: SushiRepository) {}
+  constructor(private readonly sushiRepo: SushiRepository, private readonly authRepo: AuthRepository) {}
 
   public async getAllSushi() {
     try {
@@ -39,7 +40,7 @@ export class SushiService {
     }
   }
 
-  public async createReview(body: CreateReviewBody) {
+  public async createReview(body: CreateReviewBody, userId: string) {
     try {
       const sushi = await this.sushiRepo.model.findOne({ _id: body.sushiId });
 
@@ -49,7 +50,11 @@ export class SushiService {
 
       sushi.starsAvg = (sushi.starsAvg * sushi.reviews.length + body.star) / (sushi.reviews.length + 1);
       sushi.reviews.push(body);
-      await sushi.save();
+
+      const tasks = [];
+      tasks.push(sushi.save());
+      tasks.push(this.authRepo.model.updateOne({ _id: userId }, { $push: { reviews: sushi.id } }));
+      await Promise.all(tasks);
     } catch (e) {
       throw new BaseException(400, 'create review error', e);
     }

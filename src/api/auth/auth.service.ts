@@ -36,4 +36,10 @@ export class AuthService {
     const existingUser = await this.authRepo.model.findOne({ email: body.email });
     return { isExist: existingUser ? true : false };
   }
+
+  public async getUserData(userId: string) {
+    const userInfo = await this.authRepo.model.findOne({ _id: userId });
+
+    return userInfo.toJSON();
+  }
 }

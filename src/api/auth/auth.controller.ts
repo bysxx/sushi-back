@@ -1,4 +1,4 @@
-import { Authorized, Body, Get, JsonController, Post } from 'routing-controllers';
+import { Authorized, Body, Get, JsonController, Post, Req } from 'routing-controllers';
 import { CheckDuplicateBody, LoginBody, SignupBody } from './auth.interfaces';
 import { AuthService } from './auth.service';
 
@@ -23,9 +23,9 @@ export class AuthController {
     return await this.authService.checkDuplicateEmail(body);
   }
 
-  @Get('/test')
+  @Get('/user-data')
   @Authorized()
-  public test() {
-    return 'good';
+  public async getUserData(@Req() req) {
+    return await this.authService.getUserData(req.user.id);
   }
 }

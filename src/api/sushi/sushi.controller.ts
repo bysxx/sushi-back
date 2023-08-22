@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Authorized, Body, Delete, Get, JsonController, Param, Post, Res } from 'routing-controllers';
+import { Authorized, Body, Delete, Get, JsonController, Param, Post, Req, Res } from 'routing-controllers';
 import Sushi, { CreateReviewBody } from './sushi.interfaces';
 import { SushiService } from './sushi.service';
 
@@ -31,7 +31,7 @@ export class SushiController {
 
   @Post('/review')
   @Authorized()
-  public async createReview(@Body() body: CreateReviewBody) {
-    return this.sushiService.createReview(body);
+  public async createReview(@Req() req, @Body() body: CreateReviewBody) {
+    return this.sushiService.createReview(body, req.user.id);
   }
 }
