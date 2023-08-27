@@ -42,4 +42,14 @@ export class AuthService {
 
     return userInfo.toJSON();
   }
+
+  public async deleteUser(userId: string) {
+    try {
+      await this.authRepo.model.deleteOne({ _id: userId });
+
+      return { message: '회원 탈퇴가 완료되었습니다.' };
+    } catch (e) {
+      throw new BaseException(500, '회원 탈퇴 중 에러 발생', e);
+    }
+  }
 }

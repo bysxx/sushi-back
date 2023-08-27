@@ -1,4 +1,4 @@
-import { Authorized, Body, Get, JsonController, Post, Req } from 'routing-controllers';
+import { Authorized, Body, Delete, Get, JsonController, Post, Req } from 'routing-controllers';
 import { CheckDuplicateBody, LoginBody, SignupBody } from './auth.interfaces';
 import { AuthService } from './auth.service';
 
@@ -27,5 +27,11 @@ export class AuthController {
   @Authorized()
   public async getUserData(@Req() req) {
     return await this.authService.getUserData(req.user.id);
+  }
+
+  @Delete('/user')
+  @Authorized()
+  public async deleteUser(@Req() req) {
+    return await this.authService.deleteUser(req.user.id);
   }
 }
